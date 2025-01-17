@@ -3,7 +3,7 @@
 ## Installation
 
 ```shell
-composer require thesis/reader-writer
+composer require thesis/byte-reader-writer
 ```
 
 ## Basic usage
@@ -13,7 +13,7 @@ composer require thesis/reader-writer
 
 declare(strict_types=1);
 
-use Thesis\ReaderWriter\ReaderWriter;
+use Thesis\ByteReaderWriter\ReaderWriter;
 use Thesis\ByteReader\Reader;
 
 $rw = new ReaderWriter(

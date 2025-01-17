@@ -1,5 +1,5 @@
 {
-    "name": "thesis/reader-writer",
+    "name": "thesis/byte-reader-writer",
     "description": "An implementation for thesis/byte-order.",
     "license": "MIT",
     "type": "library",
@@ -32,12 +32,12 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Thesis\\ReaderWriter\\": "src/"
+            "Thesis\\ByteReaderWriter\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Thesis\\ReaderWriter\\": "tests/"
+            "Thesis\\ByteReaderWriter\\": "tests/"
         }
     },
     "config": {
