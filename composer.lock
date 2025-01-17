@@ -4,15 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d78de61d5b96ab84722d337321213ac8",
+    "content-hash": "bf99ab446af6d118e3bd3c048a5d401b",
     "packages": [
         {
             "name": "thesis/byte-order",
-            "version": "0.1.x-dev",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thesisphp/byte-order.git",
                 "reference": "be7702e584dbaf1d3fe800e4fcde9d006bd7dbdb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thesisphp/byte-order/zipball/be7702e584dbaf1d3fe800e4fcde9d006bd7dbdb",
+                "reference": "be7702e584dbaf1d3fe800e4fcde9d006bd7dbdb",
+                "shasum": ""
             },
             "require": {
                 "php": "^8.3",
@@ -24,7 +30,6 @@
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "ergebnis/composer-normalize": "^2.45.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -38,39 +43,7 @@
                     "Thesis\\ByteOrder\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Thesis\\ByteOrder\\": "tests/"
-                }
-            },
-            "scripts": {
-                "check": [
-                    "@composer fixcs -- --dry-run",
-                    "@phpstan",
-                    "@composer validate",
-                    "@composer normalize --dry-run",
-                    "@check-require",
-                    "@check-unused"
-                ],
-                "check-require": [
-                    "tools/composer-require-checker/vendor/bin/composer-require-checker"
-                ],
-                "check-unused": [
-                    "tools/composer-unused/vendor/bin/composer-unused"
-                ],
-                "fixcs": [
-                    "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --diff --verbose"
-                ],
-                "infection": [
-                    "tools/infection/vendor/bin/infection --show-mutations"
-                ],
-                "phpstan": [
-                    "tools/phpstan/vendor/bin/phpstan analyze"
-                ],
-                "pre-command-run": [
-                    "mkdir -p var"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -89,6 +62,16 @@
                 }
             ],
             "description": "The library adds methods for reading bytes in any byte order to Reader and Writer.",
+            "support": {
+                "issues": "https://github.com/thesisphp/byte-order/issues",
+                "source": "https://github.com/thesisphp/byte-order/tree/0.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.tinkoff.ru/cf/5MqZQas2dk7",
+                    "type": "custom"
+                }
+            ],
             "time": "2025-01-17T03:50:12+00:00"
         },
         {
@@ -2738,10 +2721,8 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "thesis/byte-order": 20
-    },
+    "minimum-stability": "stable",
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

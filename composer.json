@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": "^8.3",
-        "thesis/byte-order": "0.1.x-dev",
+        "thesis/byte-order": "^0.2.0",
         "thesis/byte-reader": "^0.3.1",
         "thesis/byte-writer": "^0.2.1",
         "thesis/endian": "^0.1.0"
@@ -29,13 +29,7 @@
         "ergebnis/composer-normalize": "^2.45.0",
         "phpunit/phpunit": "^10.5.40"
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/thesisphp/byte-order.git"
-        }
-    ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Thesis\\ReaderWriter\\": "src/"
