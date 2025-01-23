@@ -7,6 +7,7 @@ namespace Thesis\ByteReaderWriter;
 use Thesis\ByteOrder\ReadFrom;
 use Thesis\ByteOrder\WriteTo;
 use Thesis\ByteReader\Reader;
+use Thesis\ByteWriter\Flushable;
 use Thesis\ByteWriter\Writer;
 use Thesis\Endian\endian;
 
@@ -15,7 +16,8 @@ use Thesis\Endian\endian;
  */
 final class ReaderWriter implements
     ReadFrom,
-    WriteTo
+    WriteTo,
+    Flushable
 {
     private readonly Reader $reader;
 
@@ -142,6 +144,13 @@ final class ReaderWriter implements
     public function write(string $bytes): void
     {
         $this->writer->write($bytes);
+    }
+
+    public function flush(): void
+    {
+        if ($this->writer instanceof Flushable) {
+            $this->writer->flush();
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Thesis\ByteReader\Reader;
+use Thesis\ByteWriter\Flushable;
 use Thesis\ByteWriter\Writer;
 use Thesis\Endian\endian;
 
@@ -204,12 +205,22 @@ final class ReaderWriterTest extends TestCase
         self::assertEquals($value, $rw->read(\strlen($value)));
     }
 
-    private function createReaderWriter(): MockObject&Reader&Writer
+    public function testFlush(): void
     {
-        /** @var MockObject&Reader&Writer */
+        $rdr = $this->createReaderWriter();
+        $rdr->expects(self::once())->method('flush');
+
+        $rw = new ReaderWriter($rdr);
+        $rw->flush();
+    }
+
+    private function createReaderWriter(): MockObject&Reader&Writer&Flushable
+    {
+        /** @var MockObject&Reader&Writer&Flushable */
         return $this->createMockForIntersectionOfInterfaces([
             Reader::class,
             Writer::class,
+            Flushable::class,
         ]);
     }
 }
