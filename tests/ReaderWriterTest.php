@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Thesis\ByteReaderWriter;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -16,6 +17,7 @@ use Thesis\Endian\endian;
 #[CoversClass(ReaderWriter::class)]
 final class ReaderWriterTest extends TestCase
 {
+    #[AllowMockObjectsWithoutExpectations]
     public function testExceptionIfReaderIsNotSubtypeOfWriter(): void
     {
         $rdr = $this->createMock(Reader::class);
