@@ -14,25 +14,20 @@ use Thesis\Endian\endian;
 /**
  * @api
  */
-final class ReaderWriter implements
-    ReadFrom,
-    WriteTo,
-    Flushable
+final readonly class ReaderWriter implements ReadFrom, WriteTo, Flushable
 {
-    private readonly Reader $reader;
-
-    private readonly Writer $writer;
+    private Writer $writer;
 
     public function __construct(
-        Reader $reader,
+        private Reader $reader,
         ?Writer $writer = null,
     ) {
         $writer ??= $reader;
+
         if (!$writer instanceof Writer) {
             throw new \UnexpectedValueException(\sprintf('The $reader must be a subtype of "%s", when $writer is not passed, but "%s" given.', Writer::class, get_debug_type($writer)));
         }
 
-        $this->reader = $reader;
         $this->writer = $writer;
     }
 
