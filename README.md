@@ -15,10 +15,11 @@ declare(strict_types=1);
 
 use Thesis\ByteReaderWriter\ReaderWriter;
 use Thesis\ByteReader\Reader;
+use Thesis\ByteWriter\Writer;
 
 $rw = new ReaderWriter(
-    /* an implementation of Thesis\ByteReader\Reader or Thesis\ByteReader\Reader|Thesis\ByteReader\Writer */,
-    /* an implementation of ?Thesis\ByteReader\Writer */
+    reader: /* an implementation of Reader or Reader&Writer */,
+    writer: /* an implementation of Writer or null */,
 );
 
 $rw

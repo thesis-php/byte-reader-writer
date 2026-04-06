@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Thesis\ByteReaderWriter;
 
+use BcMath\Number;
 use Thesis\ByteOrder\ReadFrom;
 use Thesis\ByteOrder\WriteTo;
 use Thesis\ByteReader\Reader;
 use Thesis\ByteWriter\Flushable;
 use Thesis\ByteWriter\Writer;
-use Thesis\Endian\endian;
+use Thesis\Endian\Order;
 
 /**
  * @api
@@ -31,54 +32,54 @@ final readonly class ReaderWriter implements ReadFrom, WriteTo, Flushable
         $this->writer = $writer;
     }
 
-    public function readInt8(endian $endian = endian::network): int
+    public function readInt8(Order $order = Order::Network): int
     {
-        return $endian->unpackInt8($this->reader->read(1));
+        return $order->unpackInt8($this->reader->read(1));
     }
 
-    public function readUint8(endian $endian = endian::network): int
+    public function readUint8(Order $order = Order::Network): int
     {
-        return $endian->unpackUint8($this->reader->read(1));
+        return $order->unpackUint8($this->reader->read(1));
     }
 
-    public function readInt16(endian $endian = endian::network): int
+    public function readInt16(Order $order = Order::Network): int
     {
-        return $endian->unpackInt16($this->reader->read(2));
+        return $order->unpackInt16($this->reader->read(2));
     }
 
-    public function readUint16(endian $endian = endian::network): int
+    public function readUint16(Order $order = Order::Network): int
     {
-        return $endian->unpackUint16($this->reader->read(2));
+        return $order->unpackUint16($this->reader->read(2));
     }
 
-    public function readInt32(endian $endian = endian::network): int
+    public function readInt32(Order $order = Order::Network): int
     {
-        return $endian->unpackInt32($this->reader->read(4));
+        return $order->unpackInt32($this->reader->read(4));
     }
 
-    public function readUint32(endian $endian = endian::network): int
+    public function readUint32(Order $order = Order::Network): int
     {
-        return $endian->unpackUint32($this->reader->read(4));
+        return $order->unpackUint32($this->reader->read(4));
     }
 
-    public function readInt64(endian $endian = endian::network): int
+    public function readInt64(Order $order = Order::Network): Number
     {
-        return $endian->unpackInt64($this->reader->read(8));
+        return $order->unpackInt64($this->reader->read(8));
     }
 
-    public function readUint64(endian $endian = endian::network): int
+    public function readUint64(Order $order = Order::Network): Number
     {
-        return $endian->unpackUint64($this->reader->read(8));
+        return $order->unpackUint64($this->reader->read(8));
     }
 
-    public function readFloat(endian $endian = endian::network): float
+    public function readFloat(Order $order = Order::Network): float
     {
-        return $endian->unpackFloat($this->reader->read(4));
+        return $order->unpackFloat($this->reader->read(4));
     }
 
-    public function readDouble(endian $endian = endian::network): float
+    public function readDouble(Order $order = Order::Network): float
     {
-        return $endian->unpackDouble($this->reader->read(8));
+        return $order->unpackDouble($this->reader->read(8));
     }
 
     public function read(int $limit): string
@@ -86,54 +87,54 @@ final readonly class ReaderWriter implements ReadFrom, WriteTo, Flushable
         return $this->reader->read($limit);
     }
 
-    public function writeInt8(int $v, endian $endian = endian::network): self
+    public function writeInt8(int $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packInt8(...), $v);
+        return $this->doWrite($order->packInt8(...), $v);
     }
 
-    public function writeUint8(int $v, endian $endian = endian::network): self
+    public function writeUint8(int $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packUint8(...), $v);
+        return $this->doWrite($order->packUint8(...), $v);
     }
 
-    public function writeInt16(int $v, endian $endian = endian::network): self
+    public function writeInt16(int $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packInt16(...), $v);
+        return $this->doWrite($order->packInt16(...), $v);
     }
 
-    public function writeUint16(int $v, endian $endian = endian::network): self
+    public function writeUint16(int $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packUint16(...), $v);
+        return $this->doWrite($order->packUint16(...), $v);
     }
 
-    public function writeInt32(int $v, endian $endian = endian::network): self
+    public function writeInt32(int $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packInt32(...), $v);
+        return $this->doWrite($order->packInt32(...), $v);
     }
 
-    public function writeUint32(int $v, endian $endian = endian::network): self
+    public function writeUint32(int $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packUint32(...), $v);
+        return $this->doWrite($order->packUint32(...), $v);
     }
 
-    public function writeInt64(int $v, endian $endian = endian::network): self
+    public function writeInt64(Number $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packInt64(...), $v);
+        return $this->doWrite($order->packInt64(...), $v);
     }
 
-    public function writeUint64(int $v, endian $endian = endian::network): self
+    public function writeUint64(Number $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packUint64(...), $v);
+        return $this->doWrite($order->packUint64(...), $v);
     }
 
-    public function writeFloat(float $v, endian $endian = endian::network): self
+    public function writeFloat(float $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packFloat(...), $v);
+        return $this->doWrite($order->packFloat(...), $v);
     }
 
-    public function writeDouble(float $v, endian $endian = endian::network): self
+    public function writeDouble(float $v, Order $order = Order::Network): self
     {
-        return $this->doWrite($endian->packDouble(...), $v);
+        return $this->doWrite($order->packDouble(...), $v);
     }
 
     public function write(string $bytes): void

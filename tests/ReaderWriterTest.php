@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Thesis\ByteReaderWriter;
 
+use BcMath\Number;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -12,8 +13,16 @@ use PHPUnit\Framework\TestCase;
 use Thesis\ByteReader\Reader;
 use Thesis\ByteWriter\Flushable;
 use Thesis\ByteWriter\Writer;
-use Thesis\Endian\endian;
+use Thesis\Endian\Order;
 
+/**
+ * @phpstan-import-type Int8 from Order
+ * @phpstan-import-type Uint8 from Order
+ * @phpstan-import-type Int16 from Order
+ * @phpstan-import-type Uint16 from Order
+ * @phpstan-import-type Int32 from Order
+ * @phpstan-import-type Uint32 from Order
+ */
 #[CoversClass(ReaderWriter::class)]
 final class ReaderWriterTest extends TestCase
 {
@@ -26,169 +35,172 @@ final class ReaderWriterTest extends TestCase
         new ReaderWriter($rdr);
     }
 
-    #[TestWith([endian::network, -20])]
-    public function testReadWriteInt8(endian $endian, int $value): void
+    /**
+     * @param Int8 $value
+     */
+    #[TestWith([Order::Network, -20])]
+    public function testReadWriteInt8(Order $order, int $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packInt8($value);
+        $v = $order->packInt8($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(1)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeInt8($value);
-        self::assertEquals($value, $rw->readInt8($endian));
+        self::assertEquals($value, $rw->readInt8($order));
     }
 
     /**
-     * @param non-negative-int $value
+     * @param Uint8 $value
      */
-    #[TestWith([endian::network, 20])]
-    public function testReadWriteUint8(endian $endian, int $value): void
+    #[TestWith([Order::Network, 20])]
+    public function testReadWriteUint8(Order $order, int $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packUint8($value);
+        $v = $order->packUint8($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(1)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeUint8($value);
-        self::assertEquals($value, $rw->readUint8($endian));
+        self::assertEquals($value, $rw->readUint8($order));
     }
 
-    #[TestWith([endian::network, -30])]
-    public function testReadWriteInt16(endian $endian, int $value): void
+    /**
+     * @param Int16 $value
+     */
+    #[TestWith([Order::Network, -30])]
+    public function testReadWriteInt16(Order $order, int $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packInt16($value);
+        $v = $order->packInt16($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(2)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeInt16($value);
-        self::assertEquals($value, $rw->readInt16($endian));
+        self::assertEquals($value, $rw->readInt16($order));
     }
 
     /**
-     * @param non-negative-int $value
+     * @param Uint16 $value
      */
-    #[TestWith([endian::network, 30])]
-    public function testReadWriteUint16(endian $endian, int $value): void
+    #[TestWith([Order::Network, 30])]
+    public function testReadWriteUint16(Order $order, int $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packUint16($value);
+        $v = $order->packUint16($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(2)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeUint16($value);
-        self::assertEquals($value, $rw->readUint16($endian));
+        self::assertEquals($value, $rw->readUint16($order));
     }
 
     /**
-     * @param non-negative-int $value
+     * @param Int32 $value
      */
-    #[TestWith([endian::network, -30])]
-    public function testReadWriteInt32(endian $endian, int $value): void
+    #[TestWith([Order::Network, -30])]
+    public function testReadWriteInt32(Order $order, int $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packInt32($value);
+        $v = $order->packInt32($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(4)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeInt32($value);
-        self::assertEquals($value, $rw->readInt32($endian));
+        self::assertEquals($value, $rw->readInt32($order));
     }
 
     /**
-     * @param non-negative-int $value
+     * @param Uint32 $value
      */
-    #[TestWith([endian::network, 30])]
-    public function testReadWriteUint32(endian $endian, int $value): void
+    #[TestWith([Order::Network, 30])]
+    public function testReadWriteUint32(Order $order, int $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packUint32($value);
+        $v = $order->packUint32($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(4)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeUint32($value);
-        self::assertEquals($value, $rw->readUint32($endian));
+        self::assertEquals($value, $rw->readUint32($order));
     }
 
-    #[TestWith([endian::network, -40])]
-    public function testReadWriteInt64(endian $endian, int $value): void
+    #[TestWith([Order::Network, new Number(-40)])]
+    public function testReadWriteInt64(Order $order, Number $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packInt64($value);
+        $v = $order->packInt64($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(8)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeInt64($value);
-        self::assertEquals($value, $rw->readInt64($endian));
+        self::assertEquals($value, $rw->readInt64($order));
     }
 
-    /**
-     * @param non-negative-int $value
-     */
-    #[TestWith([endian::network, 40])]
-    public function testReadWriteUint64(endian $endian, int $value): void
+    #[TestWith([Order::Network, new Number(40)])]
+    public function testReadWriteUint64(Order $order, Number $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packUint64($value);
+        $v = $order->packUint64($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(8)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeUint64($value);
-        self::assertEquals($value, $rw->readUint64($endian));
+        self::assertEquals($value, $rw->readUint64($order));
     }
 
-    #[TestWith([endian::network, -2.5])]
-    public function testReadWriteFloat(endian $endian, float $value): void
+    #[TestWith([Order::Network, -2.5])]
+    public function testReadWriteFloat(Order $order, float $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packFloat($value);
+        $v = $order->packFloat($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(4)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeFloat($value);
-        self::assertEquals($value, $rw->readFloat($endian));
+        self::assertEquals($value, $rw->readFloat($order));
     }
 
-    #[TestWith([endian::network, 10.20])]
-    public function testReadWriteDouble(endian $endian, float $value): void
+    #[TestWith([Order::Network, 10.20])]
+    public function testReadWriteDouble(Order $order, float $value): void
     {
         $rdr = $this->createReaderWriter();
 
-        $v = $endian->packDouble($value);
+        $v = $order->packDouble($value);
 
         $rdr->expects(self::once())->method('write')->with($v);
         $rdr->expects(self::once())->method('read')->with(8)->willReturn($v);
 
         $rw = new ReaderWriter($rdr);
         $rw = $rw->writeDouble($value);
-        self::assertEquals($value, $rw->readDouble($endian));
+        self::assertEquals($value, $rw->readDouble($order));
     }
 
     /**
